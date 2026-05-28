@@ -1,0 +1,123 @@
+RELATORIO DE EDICOES E CORRECOES
+
+Projeto: Sistema Academico
+
+Este arquivo registra as correcoes feitas a partir da comparacao entre
+questoes.txt, questoes2.txt e o codigo do projeto.
+
+1. app.py - validacao de campos obrigatorios
+
+Erro encontrado:
+as rotas apenas aplicavam strip() e dependiam do HTML required
+ou do banco de dados.
+
+Como ficou:
+Foram adicionadas funcoes de validacao no backend:
+- obter_campos_obrigatorios()
+- obter_carga_horaria()
+- obter_id_existente()
+- obter_professor_opcional()
+
+Essas funcoes foram aplicadas nos fluxos de cadastro e edicao de alunos,
+professores, disciplinas e matriculas.
+
+Por que:
+As questoes 3, 16 e 18 exigem que o sistema bloqueie formularios vazios,
+valores invalidos e selecoes inexistentes antes de salvar no banco.
+
+
+2. app.py - carga horaria de disciplina
+
+Erro encontrado:
+A carga horaria era convertida diretamente com int(request.form["carga_horaria"]).
+Se o valor viesse vazio, textual ou menor que 1, a aplicacao poderia quebrar
+ou aceitar um valor incoerente.
+
+Como ficou:
+A carga horaria agora precisa ser numerica e maior que zero. Caso contrario,
+o sistema exibe mensagem amigavel e nao grava a disciplina.
+
+Por que:
+A carga horaria e um dado academico obrigatorio e precisa ser valido antes da
+persistencia.
+
+
+3. app.py - selecoes de aluno, disciplina e professor
+
+Erro encontrado:
+As rotas recebiam aluno_id, disciplina_id e professor_id sem confirmar se os
+IDs existiam no banco.
+
+Como ficou:
+Matriculas validam aluno e disciplina existentes. Disciplinas validam o
+professor selecionado quando ele e informado.
+
+Por que:
+Isso evita payloads manuais invalidos e deixa a regra de negocio coerente com
+as respostas de homologacao.
+
+
+4. app.py - modo debug
+
+Erro encontrado:
+O arquivo terminava com app.run(debug=True), contrariando a resposta que dizia
+que o debug ficava desativado em producao.
+
+Como ficou:
+O debug fica desligado por padrao e so e ativado quando a variavel
+FLASK_DEBUG tiver valor como 1, true, yes ou on.
+
+Por que:
+A questao 19 exige configuracao adequada fora do ambiente de desenvolvimento.
+
+
+5. questoes.txt - respostas de homologacao
+
+Erro encontrado:
+sem validacao backend e debug ligado.
+
+Como ficou:
+O sistema corrigido:
+- cadastro, edicao e listagem em vez de chamar cadastro/listagem de CRUD;
+- validacao backend de campos vazios, carga horaria e selecoes;
+- testes manuais documentados;
+- debug desligado por padrao e controlado por FLASK_DEBUG.
+
+Por que:
+Evitar conflitos.
+
+
+6. README.md - variaveis de ambiente
+
+Erro encontrado:
+O README nao citava FLASK_SECRET_KEY nem explicava como ativar debug apenas
+em desenvolvimento.
+
+Como ficou:
+Foram adicionadas instrucoes para FLASK_SECRET_KEY e FLASK_DEBUG.
+
+Por que:
+A questao 14 diz que o README deve permitir executar o projeto sem ajuda, e a
+questao 19 exige clareza sobre chave secreta e debug.
+
+
+7. documentacao.txt - validacoes e testes manuais
+
+Erro encontrado:
+A documentacao citava mensagens amigaveis, mas nao listava claramente os
+testes de edicao, pesquisa e bloqueio de dados invalidos.
+
+Como ficou:
+Foram adicionados itens de validacao e testes manuais:
+- campos obrigatorios vazios;
+- carga horaria invalida;
+- selecoes inexistentes;
+- cadastro, edicao, pesquisa, duplicidade, remocao logica e relatorios.
+
+Por que:
+As questoes 15 e 16 pedem evidencia documental desses testes.
+
+
+Observacao sobre alteracoes preexistentes:
+Antes destas correcoes, o worktree ja tinha alteracoes em .gitignore,
+questoes.txt e static/styles.css. Essas mudancas nao foram revertidas.

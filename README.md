@@ -41,6 +41,7 @@ Se precisar, defina as variaveis antes de iniciar:
 export MYSQL_USER=root
 export MYSQL_PASSWORD=sua_senha
 export MYSQL_DATABASE=sistema_academico
+export FLASK_SECRET_KEY=uma_chave_segura
 ```
 
 ## 4. Rodar a interface
@@ -59,6 +60,13 @@ Para obrigar o uso do MySQL e desativar o modo SQLite local:
 
 ```bash
 MYSQL_REQUIRED=1 python3 app.py
+```
+
+O modo debug fica desligado por padrao. Para usar debug apenas em
+desenvolvimento local:
+
+```bash
+FLASK_DEBUG=1 python3 app.py
 ```
 
 ## Arquivos adicionados

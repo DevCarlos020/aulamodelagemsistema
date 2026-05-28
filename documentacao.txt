@@ -571,6 +571,9 @@ No painel inicial foram adicionados botoes para baixar os relatorios.
 
 Foram adicionadas mensagens amigaveis para:
 
+- Campos obrigatorios em branco.
+- Carga horaria invalida ou menor que 1.
+- Aluno, disciplina ou professor inexistente em selecoes de formulario.
 - Aluno com CPF ou matricula ja cadastrados.
 - Professor com CPF ou registro ja cadastrados.
 - Disciplina com codigo ja cadastrado.
@@ -603,6 +606,12 @@ Durante a implementacao, foram realizados testes para verificar:
 - Importacao da aplicacao Flask.
 - Abertura da pagina inicial.
 - Abertura das telas de alunos, professores, disciplinas e matriculas.
+- Cadastro de alunos, professores e disciplinas.
+- Edicao de alunos, professores, disciplinas e matriculas.
+- Pesquisa de alunos por nome completo, parcial e com diferenca de maiusculas.
+- Bloqueio de formularios com campos obrigatorios vazios.
+- Bloqueio de carga horaria invalida.
+- Bloqueio de registros duplicados.
 - Funcionamento da remocao logica de matriculas.
 - Geracao do arquivo JSON.
 - Geracao do arquivo PDF.

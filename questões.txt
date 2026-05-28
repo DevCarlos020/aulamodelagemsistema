@@ -4,61 +4,61 @@ Aluno: Carlos Eduardo
 Projeto: Sistema Academico
 
 1. O objetivo do sistema esta claro para os usuarios finais, como secretaria, professores e alunos?
-Sim, o objetivo está claro: ser um protótipo funcional para gerenciar o fluxo principal da secretaria, cadastrando e relacionando alunos, professores e disciplinas de forma centralizada.
+    Sim, o objetivo está claro: ser um protótipo funcional para gerenciar o fluxo principal da secretaria, cadastrando e relacionando alunos, professores e disciplinas de forma centralizada.
 
 2. Quais funcionalidades sao obrigatorias para considerar o sistema pronto: cadastro de alunos, professores, disciplinas, matriculas, pesquisa e relatorios?
-O sistema só vai para produção se o CRUD (cadastro e listagem) de alunos, professores e disciplinas estiver rodando, além do fluxo de matrículas funcionando corretamente e a geração dos relatórios (JSON e PDF).
+    O sistema só vai para produção se o cadastro, edição e listagem de alunos, professores e disciplinas estiverem rodando, além da pesquisa de alunos, do fluxo de matrículas com remoção lógica e da geração dos relatórios (JSON e PDF).
 
 3. Todos os campos obrigatorios dos formularios estao validados corretamente antes de salvar no banco?
-Sim, as validações ocorrem no backend via Flask para garantir que nenhum dado em branco ou inválido seja inserido no banco de dados.
+    Sim, as validações ocorrem no backend via Flask antes da gravação, bloqueando campos obrigatórios em branco, carga horária inválida e seleções inválidas de aluno, disciplina ou professor.
 
 4. O sistema impede cadastros duplicados de CPF, matricula de aluno, registro de professor e codigo de disciplina?
-Sim, o banco de dados e as validações da aplicação impedem duplicidade e exibem mensagens amigáveis na interface caso a gente tente cadastrar um CPF, matrícula, registro ou código já existente.
+    Sim, o banco de dados e as validações da aplicação impedem duplicidade e exibem mensagens amigáveis na interface caso a gente tente cadastrar um CPF, matrícula, registro ou código já existente.
 
 5. A pesquisa de alunos por nome funciona com nomes completos, partes do nome e diferencas entre letras maiusculas e minusculas?
-Funciona. O método de pesquisa ignora diferenças entre maiúsculas e minúsculas e consegue achar resultados usando apenas partes do nome. Se o campo for enviado vazio, ele lista todos os alunos.
+    Funciona. O método de pesquisa ignora diferenças entre maiúsculas e minúsculas e consegue achar resultados usando apenas partes do nome. Se o campo for enviado vazio, ele lista todos os alunos.
 
 6. O fluxo de matricula impede que o mesmo aluno seja matriculado duas vezes na mesma disciplina?
-Impede. O sistema faz a validação antes da associação, verificando se a disciplina já está na lista de disciplinas do aluno (ou se já existe o vínculo no banco) para evitar duplicidade.
+    Impede. O sistema faz a validação antes da associação, verificando se a disciplina já está na lista de disciplinas do aluno (ou se já existe o vínculo no banco) para evitar duplicidade.
 
 7. A remocao de matriculas esta funcionando conforme esperado, mantendo o historico no banco quando necessario?
-A remoção de matrículas está funcionando via remoção lógica. Quando eu clico em remover na interface, o sistema não dá um DELETE no banco, ele apenas altera o campo ativo para 0 e preenche removido_em com a data e hora. A matrícula some da tela, mas o histórico é mantido no banco.
+    A remoção de matrículas está funcionando via remoção lógica. Quando eu clico em remover na interface, o sistema não dá um DELETE no banco, ele apenas altera o campo ativo para 0 e preenche removido_em com a data e hora. A matrícula some da tela, mas o histórico é mantido no banco.
 
 8. O metodo de remover dados do aluno em Aluno.py esta coerente com a regra de negocio definida para o projeto?
-Sim, o remover_dados limpa todos os atributos em memória, desfazendo vínculos e zerando nome, CPF, matrícula, curso e a lista de disciplinas daquela instância.
+    Sim, o remover_dados limpa todos os atributos em memória, desfazendo vínculos e zerando nome, CPF, matrícula, curso e a lista de disciplinas daquela instância.
 
 9. As telas de cadastro, edicao, listagem e pesquisa apresentam mensagens claras de sucesso, erro ou alerta?
-Sim, a interface web foi programada para exibir mensagens amigáveis avisando sobre sucesso nas operações ou erros (como CPF duplicado, aluno já matriculado ou falha de conexão com o banco).
+    Sim, a interface web foi programada para exibir mensagens amigáveis avisando sobre sucesso nas operações ou erros (como CPF duplicado, aluno já matriculado ou falha de conexão com o banco).
 
 10. O layout da interface funciona bem em telas menores, como notebook, tablet e celular?
-As telas, arquivos HTML em templates/ e o styles.css foram construídos para serem funcionais e se adaptarem de forma razoável a diferentes tamanhos de tela.
+    As telas, arquivos HTML em templates/ e o styles.css foram construídos para serem funcionais e se adaptarem de forma razoável a diferentes tamanhos de tela.
 
 11. Os relatorios em JSON e PDF mostram todos os dados necessarios para conferencia academica?
-Sim, os métodos em relatorios.py puxam e organizam a estrutura completa de alunos, professores, disciplinas e matrículas, exportando tudo nos formatos JSON e PDF pelas rotas /relatorios/json e /relatorios/pdf.
+    Sim, os métodos em relatorios.py puxam e organizam a estrutura completa de alunos, professores, disciplinas e matrículas, exportando tudo nos formatos JSON e PDF pelas rotas /relatorios/json e /relatorios/pdf.
 
 12. O banco MySQL pode ser criado corretamente a partir do arquivo schema.sql em um ambiente novo?
-Pode sim. O arquivo schema.sql contém todos os comandos exatos de CREATE DATABASE, CREATE TABLE, os relacionamentos e até dados iniciais para subir o banco do zero.
+    Pode sim. O arquivo schema.sql contém todos os comandos exatos de CREATE DATABASE, CREATE TABLE, os relacionamentos e até dados iniciais para subir o banco do zero.
 
 13. O modo SQLite local funciona corretamente quando o MySQL nao esta disponivel?
-Sim, o db.py tem um fallback programado. Se a aplicação não conseguir conectar no MySQL, ela usa automaticamente um banco SQLite local para que o sistema e a interface não caiam.
+    Sim, o db.py tem um fallback programado. Se a aplicação não conseguir conectar no MySQL, ela usa automaticamente um banco SQLite local para que o sistema e a interface não caiam.
 
 14. As instrucoes do README e da documentacao permitem que outra pessoa instale e execute o projeto sem ajuda do professor?
-Permitem. O README detalha tudo: como rodar o schema.sql, instalar as bibliotecas com o requirements.txt, configurar variáveis de ambiente e executar o app.py.
+    Permitem. O README detalha tudo: como rodar o schema.sql, instalar as bibliotecas com o requirements.txt, configurar variáveis de ambiente e executar o app.py.
 
 15. Existem testes manuais documentados para cadastro, edicao, pesquisa, matricula, remocao e relatorios?
-Foram realizados testes práticos passando por todo o ciclo do fluxo web: criação, pesquisa, testes de remoção lógica de matrícula e validação do download dos relatórios.
+    Foram documentados testes práticos passando pelo ciclo do fluxo web: cadastro, edição, pesquisa, matrícula, remoção lógica, bloqueio de dados inválidos e validação do download dos relatórios.
 
 16. O sistema foi testado com dados validos, dados incompletos, dados duplicados e dados digitados incorretamente?
-Sim, fiz testes de estresse enviando formulários vazios e forçando dados duplicados para checar se as mensagens amigáveis de erro estavam subindo corretamente em vez de quebrar a aplicação.
+    Sim, o fluxo foi validado com dados válidos, formulários incompletos, registros duplicados e valores incorretos, garantindo mensagens amigáveis em vez de falhas da aplicação.
 
 17. As mensagens, nomes de campos e textos das telas estao padronizados em portugues e sem ambiguidades?
-Toda a nomenclatura do sistema (rotas, métodos como matricular_aluno e textos na tela) foi mantida em português de forma clara e padronizada.
+    Toda a nomenclatura do sistema (rotas, métodos como matricular_aluno e textos na tela) foi mantida em português de forma clara e padronizada.
 
 18. O projeto esta protegido contra usos inadequados basicos, como envio de formularios vazios ou valores invalidos?
-Está protegido. O backend recusa payloads vazios e a aplicação valida as informações antes de tentar gravar no banco de dados.
+    Está protegido. O backend recusa campos obrigatórios vazios, carga horária inválida e seleções inexistentes antes de tentar gravar no banco de dados.
 
 19. O sistema possui configuracoes adequadas para uso fora do ambiente de desenvolvimento, como chave secreta e modo debug desativado?
-Sim, o projeto está estruturado para receber variáveis de ambiente (como as credenciais do RDS na AWS e a FLASK_SECRET_KEY), tirando as senhas do código-fonte e desligando o debug em produção.
+    Sim, o projeto está estruturado para receber variáveis de ambiente (como as credenciais do banco e a FLASK_SECRET_KEY), não grava senhas no código-fonte e mantém o debug desligado por padrão, ativando-o apenas com FLASK_DEBUG.
 
 20. A equipe definiu quem ira aprovar a homologacao final e quais criterios precisam estar atendidos para liberar o uso do sistema?
-A aprovação final para liberar o uso do sistema na AWS depende da validação total dos requisitos (CRUD, remoção lógica e geração de relatórios rodando 100%).
+    A aprovação final para liberar o uso do sistema na AWS depende da validação total dos requisitos (CRUD, remoção lógica e geração de relatórios rodando 100%).

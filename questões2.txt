@@ -6,7 +6,7 @@ Projeto: Sistema Academico
 Uma classe é um modelo ou molde usado para criar objetos. Neste projeto, criamos as classes: Pessoa, Aluno, Professor, Disciplina e SistemaAcademico.
 
 2. O que e um objeto e quais objetos sao instanciados na funcao main de Sistema_academico.py?
-Um objeto é uma instância viva de uma classe rodando na memória. Na função main, foram instanciados os objetos sistema, professor1, aluno1, aluno2 e disciplina1.
+Um objeto é uma instância viva de uma classe rodando na memória. Na função main, foram instanciados os objetos sistema, professor, aluno_1, aluno_2 e disciplina.
 
 3. Qual e a responsabilidade da classe Pessoa dentro do projeto?
 A classe Pessoa é a classe base genérica. A responsabilidade dela é centralizar os atributos nome e cpf, que são comuns a qualquer pessoa no sistema.
@@ -33,7 +33,7 @@ O super() é chamado dentro do método construtor (__init__) das classes Aluno e
 O __init__ é o método construtor. Ele é executado automaticamente no momento em que criamos o objeto, servindo para inicializar e definir os valores iniciais dos atributos daquela instância.
 
 11. O que o metodo __str__ permite fazer ao imprimir objetos como Aluno, Professor e Disciplina?
-O __str__ permite retornar uma representação textual formatada do objeto. Ao usar o print(aluno1), ele não exibe o endereço de memória, mas sim uma string limpa e legível com os dados do objeto.
+O __str__ permite retornar uma representação textual formatada do objeto. Ao usar o print(aluno_1), ele não exibe o endereço de memória, mas sim uma string limpa e legível com os dados do objeto.
 
 12. Como acontece a associacao entre um aluno e uma disciplina?
 A associação é bidirecional: o aluno é adicionado na lista de alunos da disciplina, e a disciplina é adicionada na lista de disciplinas do aluno, conectando os dois objetos.
@@ -54,7 +54,7 @@ Ele centraliza o encapsulamento: ao ser chamado, o método valida se não há du
 Ele pega a instância do professor, salva no atributo self.professor da disciplina e, em seguida, já adiciona a própria disciplina na lista de disciplinas daquele professor de forma automática.
 
 18. O que o metodo remover_dados da classe Aluno faz e quais atributos ele modifica?
-Ele desfaz os vínculos do aluno. O método seta para None (ou vazio) os atributos nome, cpf, matricula, curso e limpa a lista de disciplinas, resetando os dados em memória.
+Ele desfaz os vínculos do aluno. O método remove o aluno das listas das disciplinas, seta nome, cpf, matricula e curso como strings vazias e limpa a lista de disciplinas, resetando os dados em memória.
 
 19. Qual e a responsabilidade da classe SistemaAcademico em relacao as outras classes?
 A classe SistemaAcademico é a central gerenciadora. Ela guarda as coleções (listas) de todos os alunos, professores e disciplinas e orquestra as buscas e as matrículas entre eles.

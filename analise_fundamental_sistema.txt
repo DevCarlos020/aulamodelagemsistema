@@ -1,0 +1,190 @@
+ANALISE FUNDAMENTAL DO SISTEMA ACADEMICO
+
+1. Objetivo do sistema
+
+O projeto e um sistema academico simples para gerenciar alunos, professores,
+disciplinas, matriculas e relatorios. Ele tem duas camadas principais:
+
+- Uma camada orientada a objetos, usada para demonstrar conceitos de classe,
+  objeto, heranca, encapsulamento e associacao.
+- Uma camada web em Flask, usada para operar o sistema com banco de dados,
+  telas HTML e relatorios.
+
+
+2. Modelagem orientada a objetos
+
+Pessoa.py:
+Classe base com os atributos comuns nome e cpf.
+
+Aluno.py:
+Herda de Pessoa. Adiciona matricula, curso e uma lista de disciplinas.
+Tambem possui adicionar_disciplina(), listar_disciplinas() e remover_dados().
+
+Professor.py:
+Herda de Pessoa. Adiciona registro, area e uma lista de disciplinas
+atribuidas ao professor.
+
+Disciplina.py:
+Representa uma disciplina academica. Guarda nome, codigo, carga_horaria,
+professor e lista de alunos. Faz a associacao bidirecional com aluno por meio
+de matricular_aluno(), e com professor por meio de definir_professor().
+
+Sistema_academico.py:
+Centraliza listas em memoria de alunos, professores e disciplinas. Faz
+cadastros, buscas, edicoes, matriculas e montagem de dados para relatorios.
+
+
+3. Modelagem de dados no banco
+
+O banco principal previsto e MySQL, definido em schema.sql. Quando o MySQL nao
+esta disponivel, db.py usa SQLite local como fallback.
+
+Tabela alunos:
+- id
+- nome
+- cpf unico
+- matricula unica
+- curso
+- criado_em
+
+Tabela professores:
+- id
+- nome
+- cpf unico
+- registro unico
+- area
+- criado_em
+
+Tabela disciplinas:
+- id
+- nome
+- codigo unico
+- carga_horaria
+- professor_id opcional
+- criado_em
+
+Relacionamento:
+Uma disciplina pode ter um professor. Se o professor for removido no banco, a
+disciplina fica com professor_id nulo.
+
+Tabela matriculas:
+- id
+- aluno_id
+- disciplina_id
+- ativo
+- removido_em
+- criado_em
+
+Relacionamento:
+Uma matricula liga um aluno a uma disciplina. A chave unica aluno_id +
+disciplina_id impede duplicidade. A coluna ativo permite remocao logica sem
+apagar o historico.
+
+
+4. Fluxos principais
+
+Cadastro e edicao:
+app.py possui rotas para alunos, professores, disciplinas e matriculas. Os
+formularios ficam em templates/ e enviam dados por POST.
+
+Pesquisa:
+A tela de alunos permite pesquisar por nome. A busca usa parte do nome e
+ignora diferenca entre maiusculas e minusculas.
+
+Matricula:
+O usuario escolhe um aluno e uma disciplina. O sistema verifica se o vinculo
+ja existe. Se estiver ativo, bloqueia duplicidade. Se estiver removido, reativa
+a matricula.
+
+Remocao logica:
+Ao remover uma matricula, app.py atualiza ativo para 0 e preenche removido_em.
+O registro deixa de aparecer na tela, mas continua no banco.
+
+Relatorios:
+app.py monta os dados atuais do banco e chama relatorios.py. Existem rotas
+para baixar JSON e PDF.
+
+
+5. Estrutura de infraestrutura e execucao
+
+app.py:
+Aplicacao Flask, rotas web, validacoes de formularios, mensagens flash,
+dashboard e endpoints de relatorio.
+
+db.py:
+Camada simples de acesso ao banco. Tenta conectar no MySQL; se falhar e
+MYSQL_REQUIRED nao estiver ativo, cria/usa SQLite local.
+
+schema.sql:
+Script para criar o banco MySQL, tabelas, relacionamentos e dados iniciais.
+
+templates/:
+Telas HTML renderizadas pelo Flask.
+
+static/styles.css:
+Estilos da interface.
+
+README.md:
+Instrucao de instalacao, configuracao, execucao, uso de MySQL/SQLite e debug.
+
+requirements.txt:
+Dependencias do projeto: Flask e mysql-connector-python.
+
+
+6. Configuracoes importantes
+
+MYSQL_HOST, MYSQL_PORT, MYSQL_USER, MYSQL_PASSWORD e MYSQL_DATABASE:
+Definem a conexao MySQL.
+
+MYSQL_REQUIRED:
+Quando ativo, obriga o uso do MySQL e impede fallback silencioso para SQLite.
+
+SQLITE_PATH:
+Define o caminho do banco SQLite local.
+
+FLASK_SECRET_KEY:
+Define a chave secreta usada pelo Flask para mensagens e sessao.
+
+FLASK_DEBUG:
+Ativa debug somente quando informado com valor positivo. Por padrao, o debug
+fica desligado.
+
+
+7. Validacoes e protecoes basicas
+
+O backend valida:
+- campos obrigatorios em branco;
+- carga horaria numerica e maior que zero;
+- aluno e disciplina existentes antes de matricular;
+- professor existente quando selecionado;
+- duplicidade por restricoes unicas no banco.
+
+As mensagens amigaveis sao exibidas com flash() e aparecem no layout base.
+
+
+8. Pontos cruciais para manutencao
+
+As regras de negocio da interface web estao principalmente em app.py.
+
+As regras estruturais do banco estao duplicadas em schema.sql e na criacao
+SQLite dentro de db.py. Ao alterar tabelas, e necessario manter os dois lados
+coerentes.
+
+O modo SQLite e util para teste local, mas em ambiente controlado recomenda-se
+usar MYSQL_REQUIRED=1 para garantir que o MySQL configurado esta sendo usado.
+
+Os arquivos de classes orientadas a objetos sao importantes para a parte
+didatica do projeto, enquanto app.py e db.py sao os arquivos centrais do uso
+web com persistencia.
+
+
+9. Limites atuais
+
+O sistema nao possui autenticacao de usuarios nem controle de permissoes.
+
+Os testes documentados sao manuais. Nao ha suite automatizada de testes no
+repositorio.
+
+A remocao logica foi implementada para matriculas. Alunos, professores e
+disciplinas possuem cadastro, listagem e edicao, mas nao possuem fluxo de
+exclusao proprio na interface.
